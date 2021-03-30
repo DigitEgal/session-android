@@ -29,6 +29,9 @@ class AttachmentUploadJob(val attachmentID: Long, val threadID: String, val mess
     }
 
     // Settings
+
+    // TODO: Why are there two maxFailureCounts?
+
     override val maxFailureCount: Int = 20
     companion object {
         val TAG = AttachmentUploadJob::class.simpleName

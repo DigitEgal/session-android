@@ -12,11 +12,10 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-
 class JobQueue : JobDelegate {
     private var hasResumedPendingJobs = false // Just for debugging
 
-    private val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
+    private val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher() // TODO: Should this be a single thread to ensure jobs are executed in order?
     private val scope = GlobalScope + SupervisorJob()
     private val queue = Channel<Job>(UNLIMITED)
 
@@ -47,6 +46,7 @@ class JobQueue : JobDelegate {
     fun addWithoutExecuting(job: Job) {
         job.id = System.currentTimeMillis().toString()
         MessagingConfiguration.shared.storage.persistJob(job)
+        job.delegate = this
     }
 
     fun resumePendingJobs() {

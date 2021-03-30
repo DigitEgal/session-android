@@ -16,7 +16,7 @@ class AttachmentDownloadJob(val attachmentID: Long, val databaseMessageID: Long)
     override var id: String? = null
     override var failureCount: Int = 0
 
-    private val MAX_ATTACHMENT_SIZE = 10 * 1024 * 1024
+    private val MAX_ATTACHMENT_SIZE = 10 * 1024 * 1024 // TODO: This is incorrect. The max * request * size is 10 MB. In practice the max file size is somewhere around 6 MB, because the file has to be base64 encoded.
 
     // Error
     internal sealed class Error(val description: String) : Exception(description) {
